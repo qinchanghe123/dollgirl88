@@ -1,0 +1,233 @@
+:root {
+  --bg: #fff6f8;
+  --bg-soft: #fdeef4;
+  --card: #ffffff;
+  --petal: #f4b8c8;
+  --rose: #e07a9a;
+  --rose-deep: #c45c7a;
+  --lilac: #c9b3e0;
+  --sage: #9cbfb0;
+  --gold: #d4a574;
+  --gold-soft: #e8c9a8;
+  --text: #4a3040;
+  --muted: #8a6b78;
+  --line: rgba(224, 122, 154, 0.28);
+  --cream: #fffaf6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(201, 179, 224, 0.35), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(244, 184, 200, 0.4), transparent 50%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+a { color: var(--rose-deep); text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background: linear-gradient(180deg, rgba(255,246,248,0.92), rgba(255,246,248,0.35) 80%, transparent);
+  backdrop-filter: blur(10px);
+}
+.brand {
+  font-family: "Great Vibes", cursive;
+  font-size: 34px;
+  color: var(--rose-deep);
+  letter-spacing: 0.04em;
+}
+.nav-links { display: flex; gap: 26px; font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; }
+.nav-links a { color: var(--text); opacity: 0.8; }
+.nav-links a:hover { color: var(--rose); }
+
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 8vw 11vh;
+  background:
+    linear-gradient(180deg, rgba(255,246,248,0.12) 0%, rgba(74,48,64,0.28) 48%, rgba(74,48,64,0.78) 100%),
+    url("../images/girl-beach.jpg") center 18% / cover no-repeat;
+}
+.hero-content h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(56px, 10vw, 104px);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.05;
+  text-shadow: 0 8px 30px rgba(74,48,64,0.35);
+}
+.hero-content .sub {
+  color: var(--gold-soft);
+  letter-spacing: 0.46em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.hero-content p {
+  max-width: 560px;
+  margin-top: 18px;
+  color: rgba(255,250,246,0.92);
+  font-size: 19px;
+}
+.cta-row { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 26px;
+  border: 1px solid #fff;
+  color: #fff;
+  letter-spacing: 0.14em;
+  font-size: 13px;
+  text-transform: uppercase;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.25s;
+  font-family: inherit;
+}
+.btn:hover { background: #fff; color: var(--rose-deep); }
+.btn.solid { background: var(--rose); border-color: var(--rose); color: #fff; }
+.btn.solid:hover { background: var(--rose-deep); }
+
+section { padding: 88px 8vw; }
+.sec-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 52px;
+  color: var(--rose-deep);
+  margin-bottom: 6px;
+}
+.sec-en {
+  color: var(--sage);
+  letter-spacing: 0.42em;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: center;
+  margin-top: 28px;
+}
+.about-grid p { color: var(--muted); margin-bottom: 16px; font-size: 19px; }
+.stat-row { display: flex; gap: 24px; margin-top: 26px; flex-wrap: wrap; }
+.stat { border-left: 2px solid var(--petal); padding-left: 14px; }
+.stat b { display: block; color: var(--rose-deep); font-size: 22px; }
+.stat span { font-size: 12px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.about-photo img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 180px 180px 24px 24px;
+  box-shadow: 0 24px 50px rgba(196,92,122,0.18);
+}
+
+.girl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 28px;
+}
+.girl {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(196,92,122,0.08);
+}
+.girl img { width: 100%; height: 380px; object-fit: cover; }
+.girl-body { padding: 22px 24px 26px; }
+.girl-body h3 {
+  font-family: "Great Vibes", cursive;
+  font-size: 36px;
+  color: var(--rose-deep);
+}
+.girl-body .tag {
+  color: var(--sage);
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.girl-body p { color: var(--muted); font-size: 17px; }
+
+.menu-wrap { background: var(--bg-soft); }
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px 26px;
+}
+.card h3 {
+  font-size: 28px;
+  color: var(--rose-deep);
+  font-family: "Playfair Display", serif;
+}
+.card .time { color: var(--sage); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin: 4px 0 10px; }
+.card p { color: var(--muted); font-size: 16px; }
+
+.book {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 24px;
+}
+form { display: grid; gap: 12px; }
+input, select, textarea {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 16px;
+  border-radius: 10px;
+}
+textarea { min-height: 110px; resize: vertical; }
+.phone {
+  display: block;
+  font-size: 30px;
+  color: var(--rose-deep);
+  margin: 6px 0 2px;
+}
+.meta { color: var(--muted); font-size: 16px; margin-top: 16px; }
+.meta b { color: var(--text); }
+
+footer {
+  padding: 28px 8vw 40px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 900px) {
+  .nav { padding: 12px 16px; }
+  .nav-links { display: none; }
+  .about-grid, .menu-grid, .book, .girl-grid { grid-template-columns: 1fr; }
+  .about-photo img, .girl img { height: 380px; }
+  .hero { padding: 0 6vw 9vh; }
+}
