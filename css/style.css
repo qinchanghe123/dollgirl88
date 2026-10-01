@@ -143,6 +143,8 @@ section { padding: 88px 8vw; }
   gap: 22px;
   margin-top: 28px;
 }
+.girl-wide { grid-column: 1 / -1; }
+.girl-wide img { height: 520px; object-position: center 30%; }
 .girl {
   background: var(--card);
   border: 1px solid var(--line);
