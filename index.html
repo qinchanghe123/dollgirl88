@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dollgirl</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./admin.css" />
+</head>
+<body class="dollgirl-body">
+  <header class="club-header">
+    <div class="club-header__inner">
+      <a class="club-brand" href="#" data-bind="brand">Dollgirl</a>
+      <div class="header-right">
+        <p class="club-header-note">Private club · Top-tier girls</p>
+        <button type="button" class="admin-entry-btn" id="btn-admin-open">管理</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app">
+    <div class="loading-state" id="loading">加载中…</div>
+
+    <!-- 首页 -->
+    <div id="view-home" class="view hidden">
+      <div class="club-landing">
+        <section class="club-hero club-hero--carousel" aria-label="首页轮播">
+          <div class="club-carousel" data-carousel data-interval="4000">
+            <div class="club-carousel__track" id="hero-track"></div>
+            <div class="club-carousel__overlay">
+              <div class="club-hero__inner">
+                <h1 data-bind="brand" data-edit="brand">Dollgirl</h1>
+                <p data-bind="tagline" data-edit="tagline">精心打造美女私家会所 100起步</p>
+                <div id="intro-lines"></div>
+              </div>
+            </div>
+            <button type="button" class="club-carousel__btn club-carousel__btn--prev" data-carousel-prev aria-label="上一张">‹</button>
+            <button type="button" class="club-carousel__btn club-carousel__btn--next" data-carousel-next aria-label="下一张">›</button>
+            <div class="club-carousel__dots" data-carousel-dots id="hero-dots"></div>
+          </div>
+          <div class="admin-only hero-admin-bar hidden">
+            <label class="file-btn">更换/添加轮播图
+              <input type="file" id="hero-upload" accept="image/*" multiple hidden />
+            </label>
+          </div>
+        </section>
+
+        <a class="club-tel" id="primary-tel" href="tel:">
+          <span data-bind="primary_phone" data-edit="primary_phone">(718) 223-7425</span> 来电 / 短信预约
+          <small>Out call service · 最好发短信不会错过</small>
+        </a>
+
+        <div class="club-meta">
+          <div class="club-meta__item">
+            <strong>门店 1 时间</strong>
+            <span data-bind="loc1_hours" data-edit="loc1_hours">11:00AM – 03:00AM</span>
+          </div>
+          <div class="club-meta__item">
+            <strong>门店 2 时间</strong>
+            <span data-bind="loc2_hours" data-edit="loc2_hours">24小时营业</span>
+          </div>
+        </div>
+
+        <div class="club-apps" id="club-apps"></div>
+
+        <div class="club-qr hidden" id="qr-wrap">
+          <div class="club-qr__card">
+            <img id="qr-img" src="" alt="WeChat QR" />
+            <p>微信扫码联系（不主动打扰）</p>
+            <div class="admin-only hidden">
+              <label class="file-btn">更换二维码
+                <input type="file" id="qr-upload" accept="image/*" hidden />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="club-shops">
+          <div class="club-shop">
+            <div class="club-shop__head">
+              <h3 data-bind="loc1_title" data-edit="loc1_title">法拉盛 · Saull St 会所</h3>
+              <p data-bind="loc1_sub" data-edit="loc1_sub">昌发超市背后 · 全新会所 3楼</p>
+            </div>
+            <div class="club-shop__body">
+              📍 <span data-bind="loc1_address" data-edit="loc1_address"></span><br />
+              ☎️ <span data-bind="loc1_phone" data-edit="loc1_phone"></span><br />
+              🕒 <span data-bind="loc1_hours" data-edit="loc1_hours"></span><br />
+              <span data-bind="loc1_note" data-edit="loc1_note"></span>
+              <br /><a class="loc1-call" href="tel:">立即预约 →</a>
+            </div>
+          </div>
+          <div class="club-shop">
+            <div class="club-shop__head">
+              <h3 data-bind="loc2_title" data-edit="loc2_title">法拉盛 · 好运来店</h3>
+              <p data-bind="loc2_sub" data-edit="loc2_sub">24小时营业</p>
+            </div>
+            <div class="club-shop__body">
+              📍 <span data-bind="loc2_address" data-edit="loc2_address"></span><br />
+              ☎️ <span data-bind="loc2_phone" data-edit="loc2_phone"></span><br />
+              🕒 <span data-bind="loc2_hours" data-edit="loc2_hours"></span><br />
+              <span data-bind="loc2_note" data-edit="loc2_note"></span>
+              <br /><a class="loc2-call" href="tel:">立即预约 →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="club-notice" data-bind="notice_1" data-edit="notice_1"></div>
+        <div class="club-notice" data-bind="notice_2" data-edit="notice_2"></div>
+
+        <section class="club-section" id="girls">
+          <h2 class="club-section__title">今日可约佳丽</h2>
+          <p class="club-section__lead">点击照片进入详情</p>
+          <div class="admin-only hidden" style="text-align:center;margin-bottom:12px;">
+            <button type="button" class="admin-btn" id="btn-add-girl">+ 新增佳丽</button>
+          </div>
+          <div class="girl-grid girl-grid--2col" id="girl-grid"></div>
+        </section>
+
+        <section class="club-cta">
+          <h2 data-bind="cta_title" data-edit="cta_title">预约从一条短信开始</h2>
+          <p data-bind="cta_text" data-edit="cta_text"></p>
+          <a class="cta-call" href="tel:" data-bind-phone="primary_phone">拨打</a>
+        </section>
+      </div>
+    </div>
+
+    <!-- 详情 -->
+    <div id="view-detail" class="view hidden">
+      <div class="girl-detail" id="detail-root"></div>
+    </div>
+  </main>
+
+  <footer class="club-footer">
+    <p data-bind="footer" data-edit="footer">Dollgirl · All Rights Reserved</p>
+  </footer>
+
+  <!-- 登录弹层 -->
+  <div class="modal hidden" id="modal-login" role="dialog" aria-modal="true">
+    <div class="modal__card">
+      <h2>管理员登录</h2>
+      <p class="modal__hint">使用管理员用户名登录</p>
+      <label>用户名<input type="text" id="login-email" autocomplete="username" /></label>
+      <label>密码<input type="password" id="login-password" autocomplete="current-password" /></label>
+      <p class="modal__error" id="login-error"></p>
+      <div class="modal__actions">
+        <button type="button" class="admin-btn" id="btn-login">登录</button>
+        <button type="button" class="admin-btn ghost" id="btn-login-cancel">取消</button>
+      </div>
+      <button type="button" class="admin-btn ghost full hidden" id="btn-logout">退出登录</button>
+    </div>
+  </div>
+
+  <!-- 编辑弹层（佳丽） -->
+  <div class="modal hidden" id="modal-girl" role="dialog" aria-modal="true">
+    <div class="modal__card modal__card--wide">
+      <h2 id="girl-modal-title">编辑佳丽</h2>
+      <div class="form-grid">
+        <label>名字<input id="g-name" /></label>
+        <label>档期横幅<input id="g-banner" placeholder="如：推荐 · 今日可约" /></label>
+        <label class="full">主描述（列表+详情）
+          <textarea id="g-excerpt" rows="4" placeholder="一段完整介绍"></textarea>
+        </label>
+        <label class="full">标签（多个用逗号分隔）
+          <input id="g-tags" placeholder="日本, 22岁, 165cm, 推荐" />
+        </label>
+        <label>价格1<input id="g-price1" placeholder="$200 / 30分钟" /></label>
+        <label>价格2<input id="g-price2" /></label>
+        <label>价格3<input id="g-price3" /></label>
+        <label>电话<input id="g-phone" placeholder="可留空" /></label>
+        <input type="hidden" id="g-content" />
+        <label class="full">封面图
+          <input type="file" id="g-cover" accept="image/*" />
+          <img id="g-cover-preview" class="preview" alt="" />
+        </label>
+        <label class="full">相册多图（可多选）
+          <input type="file" id="g-photos" accept="image/*" multiple />
+          <div id="g-photos-preview" class="photos-preview"></div>
+        </label>
+        <label class="full check"><input type="checkbox" id="g-published" checked /> 前台显示</label>
+      </div>
+      <p class="modal__error" id="girl-error"></p>
+      <div class="modal__actions">
+        <button type="button" class="admin-btn" id="btn-girl-save">保存</button>
+        <button type="button" class="admin-btn ghost" id="btn-girl-cancel">取消</button>
+        <button type="button" class="admin-btn danger" id="btn-girl-delete">删除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-toast hidden" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
