@@ -68,10 +68,28 @@
 
   function publicUrl(path) {
     if (!path) return '';
-    if (/^https?:\/\//i.test(path)) return path;
-    if (!supabase) return path;
+    if (/^https?:\/\//i.test(path)) {
+      try {
+        const u = new URL(path);
+        if (/dollgirl88\.com$/i.test(u.hostname) && /\/wp-content\/uploads\//i.test(u.pathname)) {
+          const file = u.pathname.split('/').pop();
+          if (/^hero-slide-/i.test(file)) return './images/hero/' + file;
+          if (/wechat-qr/i.test(file)) return './images/qr/wechat-qr.jpg';
+        }
+      } catch (e) {}
+      return path;
+    }
+    if (
+      path.startsWith('images/') ||
+      path.startsWith('./images/') ||
+      path.startsWith('assets/') ||
+      path.startsWith('./assets/')
+    ) {
+      return path.startsWith('./') ? path : './' + path.replace(/^\/+/, '');
+    }
+    if (!supabase) return './' + String(path).replace(/^\/+/, '');
     const { data } = supabase.storage.from('site-media').getPublicUrl(path);
-    return data?.publicUrl || path;
+    return (data && data.publicUrl) || path;
   }
 
   function isAdmin() {
