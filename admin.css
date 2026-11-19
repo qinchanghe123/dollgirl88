@@ -5,7 +5,32 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.lang-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 999px;
+  padding: 7px 12px;
+  min-width: 44px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  backdrop-filter: blur(4px);
+}
+.lang-toggle:hover {
+  background: #fff;
+  color: #246b44;
+}
+.lang-toggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .admin-entry-btn,

@@ -1,0 +1,184 @@
+{
+  "updated_at": "2026-11-19",
+  "source": "客户钉钉改动记录 · 在原有基础上新增/同名更新",
+  "girls": [
+    {
+      "id": "rose",
+      "slug": "rose",
+      "name": "Rose",
+      "sort_order": 1,
+      "published": true,
+      "cover": "images/girls/rose/1.jpg",
+      "photos": [
+        "images/girls/rose/1.jpg",
+        "images/girls/rose/2.jpg"
+      ],
+      "zh": {
+        "tags": ["女友感", "27岁", "167cm", "BBFS", "全能派对"],
+        "banner": "今日可约 · 全能型 · 可派对",
+        "excerpt": "Rose · 27岁 · 身高167cm。温柔女友感，可 BBFS。全能型佳丽，可派对陪同，服务贴心走心。",
+        "content": "【基本资料】\n名字：Rose\n年纪：27\n身高：167cm\n风格：女友感 · 可 BBFS\n特长：全能型 · 可派对\n\n高挑比例，气场温柔，适合喜欢女友陪伴与派对氛围的你。详情请电话 / 短信预约。"
+      },
+      "en": {
+        "tags": ["GFE", "27 yrs", "167cm", "BBFS", "Party all-rounder"],
+        "banner": "Available today · All-rounder · Party OK",
+        "excerpt": "Rose · 27 · 167cm. Sweet girlfriend vibe, BBFS available. All-rounder who is also great for parties.",
+        "content": "[Profile]\nName: Rose\nAge: 27\nHeight: 167cm\nStyle: GFE · BBFS available\nNotes: All-rounder · Party-friendly\n\nCall or text to book."
+      }
+    },
+    {
+      "id": "gucci",
+      "slug": "gucci",
+      "name": "Gucci",
+      "sort_order": 2,
+      "published": true,
+      "cover": "images/girls/gucci/1.jpg",
+      "photos": [
+        "images/girls/gucci/1.jpg",
+        "images/girls/gucci/2.jpg",
+        "images/girls/gucci/3.jpg"
+      ],
+      "zh": {
+        "tags": ["派对女王", "155cm", "高人气"],
+        "banner": "今日可约 · 派对女王",
+        "excerpt": "Gucci · 身高155cm。派对女王气场，活泼会玩，适合想嗨、想热闹的夜晚。",
+        "content": "【基本资料】\n名字：Gucci\n身高：155cm\n标签：派对女王\n\n小只身材但气场很足，派对局首选。预约请短信优先。"
+      },
+      "en": {
+        "tags": ["Party queen", "155cm", "Popular"],
+        "banner": "Available today · Party queen",
+        "excerpt": "Gucci · 155cm. Party-queen energy — fun, lively, made for a big night out.",
+        "content": "[Profile]\nName: Gucci\nHeight: 155cm\nVibe: Party queen\n\nText first to reserve."
+      }
+    },
+    {
+      "id": "emily",
+      "slug": "emily",
+      "name": "Emily",
+      "sort_order": 3,
+      "published": true,
+      "cover": "images/girls/emily/1.jpg",
+      "photos": [
+        "images/girls/emily/1.jpg",
+        "images/girls/emily/2.jpg",
+        "images/girls/emily/3.jpg",
+        "images/girls/emily/4.jpg",
+        "images/girls/emily/5.jpg",
+        "images/girls/emily/6.jpg",
+        "images/girls/emily/7.jpg",
+        "images/girls/emily/8.jpg"
+      ],
+      "zh": {
+        "tags": ["女友感", "二十七八", "155cm", "95斤", "BBFS", "全能派对"],
+        "banner": "今日可约 · 全能型 · 可派对 · 可 BBFS",
+        "excerpt": "Emily · 年龄二十七八 · 身高155cm · 体重95斤。可 BBFS，女友感满分。全能型，可派对。",
+        "content": "【基本资料】\n名字：Emily\n年纪：二十七八\n身高：155cm\n体重：95斤\n风格：女友感 · 可 BBFS\n特长：全能型 · 可派对\n\n娇小玲珑，温柔贴身，适合想要亲密女友体验的客人。"
+      },
+      "en": {
+        "tags": ["GFE", "27–28", "155cm", "95 jin / ~105lb", "BBFS", "Party all-rounder"],
+        "banner": "Available today · All-rounder · Party OK · BBFS",
+        "excerpt": "Emily · late 20s · 155cm · 95 jin (~105 lb). GFE style, BBFS available, party all-rounder.",
+        "content": "[Profile]\nName: Emily\nAge: 27–28\nHeight: 155cm\nWeight: 95 jin (~105 lb)\nStyle: GFE · BBFS available\nNotes: All-rounder · Party-friendly"
+      }
+    },
+    {
+      "id": "jenna",
+      "slug": "jenna",
+      "name": "Jenna",
+      "sort_order": 4,
+      "published": true,
+      "cover": "images/girls/jenna/1.jpg",
+      "photos": [
+        "images/girls/jenna/1.jpg",
+        "images/girls/jenna/2.jpg",
+        "images/girls/jenna/3.jpg"
+      ],
+      "zh": {
+        "tags": ["27岁", "155cm", "90lb", "32B", "BBJ", "BBFS", "全能派对"],
+        "banner": "今日可约 · 全能型 · 可派对",
+        "excerpt": "Jenna · 27岁 · 155cm · 90lb · 32B。可 BBJ / BBFS。全能型佳丽，可派对。",
+        "content": "【基本资料】\n名字：Jenna\n年纪：27\n身高：155cm\n体重：90 lb\n罩杯：32B\n服务：BBJ · BBFS\n特长：全能型 · 可派对"
+      },
+      "en": {
+        "tags": ["27 yrs", "155cm", "90 lb", "32B", "BBJ", "BBFS", "Party all-rounder"],
+        "banner": "Available today · All-rounder · Party OK",
+        "excerpt": "Jenna · 27 years old · 155cm · 90 lb · 32B · BBJ · BBFS. All-rounder and party-ready.",
+        "content": "[Profile]\nName: Jenna\nAge: 27\nHeight: 155cm\nWeight: 90 lb\nCup: 32B\nServices: BBJ · BBFS\nNotes: All-rounder · Party-friendly"
+      }
+    },
+    {
+      "id": "bella",
+      "slug": "bella",
+      "name": "Bella",
+      "sort_order": 5,
+      "published": true,
+      "cover": "images/girls/bella/1.jpg",
+      "photos": [
+        "images/girls/bella/1.jpg",
+        "images/girls/bella/2.jpg",
+        "images/girls/bella/3.jpg"
+      ],
+      "zh": {
+        "tags": ["29岁", "155cm", "107斤", "会嗨"],
+        "banner": "今日可约 · 你会嗨吗",
+        "excerpt": "Bella · 29岁 · 身高155cm · 体重107斤。会嗨、有气氛，适合想放松狂欢的夜晚。",
+        "content": "【基本资料】\n名字：Bella\n年纪：29\n身高：155cm\n体重：107斤\n风格：会嗨 · 气氛感强\n\n想嗨的话，先短信问档期。"
+      },
+      "en": {
+        "tags": ["29 yrs", "155cm", "107 jin / ~118lb", "Party vibe"],
+        "banner": "Available today · Ready to party?",
+        "excerpt": "Bella · 29 · 155cm · 107 jin (~118 lb). Fun, high-energy vibe — ask if you want to party.",
+        "content": "[Profile]\nName: Bella\nAge: 29\nHeight: 155cm\nWeight: 107 jin (~118 lb)\nVibe: High energy · Party mood\n\nText to check availability."
+      }
+    },
+    {
+      "id": "reika",
+      "slug": "reika",
+      "name": "Reika",
+      "sort_order": 6,
+      "published": true,
+      "cover": "images/girls/reika/1.jpg",
+      "photos": [
+        "images/girls/reika/1.jpg",
+        "images/girls/reika/2.jpg",
+        "images/girls/reika/3.jpg"
+      ],
+      "zh": {
+        "tags": ["田中麗華", "23岁", "164cm", "58kg", "H罩杯", "日系"],
+        "banner": "今日可约 · 详细档案",
+        "excerpt": "Reika（田中麗華）· 23岁 · 164cm · 58kg · H罩杯。白偏暖肤色，视觉年龄约24。可舌吻 / 无套口交 / BBFS / 内射协商 / 69 / 毒龙 / 肛交 / 双飞 / 逆3P / 包夜等（详见档案）。",
+        "content": "【基本资料】\n名字（名前）：田中麗華 / Reika\n身高：164cm\n体重：58kg\n罩杯：H\n年纪：23\n视觉年龄：24\n真胸或假奶：有（豊胸あり）\n下面除毛：无\n肤色：白めの茶色（白偏暖）\n外型：普通\n刺青：无\n抽烟：吸う（有）\n皮肤炎：无\n妊娠纹：无\n牙套：无\n曾工作国家：无\n\n【Extra · ⭕️可 / ❌不可】\nDFK 舌吻：⭕️\nKiss 小亲：⭕️\nbbbj 无套口交：⭕️\nbbfs 无套性交：⭕️\ncip 内射：⭕️\n69：⭕️\nrim 毒龙：⭕️\ncim 口爆：❌\nGreek 肛交：⭕️\nTwo girls 双飞：⭕️\nTwo man 二男一女：⭕️\nKB 舔乳头：⭕️\nKP 舔B：⭕️\nVideo 自拍撮影：⭕️\nCOF 脸射：❌\nBlack 黑人：⭕️\nIndian 印度人：⭕️\nnuru：❌\n包夜：⭕️\n60分钟两次：⭕️"
+      },
+      "en": {
+        "tags": ["Reika", "23 yrs", "164cm", "58kg", "H cup", "Japanese style"],
+        "banner": "Available today · Full profile",
+        "excerpt": "Reika (Tanaka Reika) · 23 · 164cm · 58kg · H cup. Warm-fair skin, looks ~24. Full service menu in profile (DFK / BBFS / overnight, etc.).",
+        "content": "[Profile]\nName: Tanaka Reika / Reika\nHeight: 164cm\nWeight: 58kg\nCup: H\nAge: 23 (looks ~24)\nBreast: augmented\nGrooming: natural\nSkin: warm fair\nBuild: average\nTattoo: none\nSmokes: yes\nDermatitis / stretch marks / braces: none\nWorked abroad: no\n\n[Extras · ⭕️ yes / ❌ no]\nDFK: ⭕️  Kiss: ⭕️  BBBJ: ⭕️  BBFS: ⭕️  CIP: ⭕️\n69: ⭕️  Rimming: ⭕️  CIM: ❌  Greek: ⭕️\nTwo girls: ⭕️  Two men: ⭕️  KB: ⭕️  KP: ⭕️\nVideo: ⭕️  COF: ❌  Black: ⭕️  Indian: ⭕️\nNuru: ❌  Overnight: ⭕️  60min ×2: ⭕️"
+      }
+    },
+    {
+      "id": "latina",
+      "slug": "latina",
+      "name": "Latina",
+      "sort_order": 7,
+      "published": true,
+      "cover": "images/girls/latina/1.jpg",
+      "photos": [
+        "images/girls/latina/1.jpg",
+        "images/girls/latina/2.jpg"
+      ],
+      "zh": {
+        "tags": ["拉缇娜", "22岁", "160cm", "普通服务"],
+        "banner": "今日可约 · 拉缇娜",
+        "excerpt": "拉缇娜（Latina）· 22岁 · 身高160cm。普通服务，热情直接，适合想轻松见面的客人。",
+        "content": "【基本资料】\n名字：拉缇娜 / Latina\n年纪：22\n身高：160cm（1.60米）\n服务：普通服务\n\n预约请电话或短信。"
+      },
+      "en": {
+        "tags": ["Latina", "22 yrs", "160cm", "Standard service"],
+        "banner": "Available today · Latina",
+        "excerpt": "Latina · 22 · 160cm. Standard service — warm and straightforward. Call or text to book.",
+        "content": "[Profile]\nName: Latina\nAge: 22\nHeight: 160cm (1.60m)\nService: Standard\n\nCall or text to reserve."
+      }
+    }
+  ]
+}

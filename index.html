@@ -10,21 +10,22 @@
 <body class="dollgirl-body">
   <header class="club-header">
     <div class="club-header__inner">
-      <a class="club-brand" href="#" data-bind="brand">Dollgirl</a>
+      <a class="club-brand" href="#/" data-bind="brand">Dollgirl</a>
       <div class="header-right">
-        <p class="club-header-note">Private club · Top-tier girls</p>
-        <button type="button" class="admin-entry-btn" id="btn-admin-open">管理</button>
+        <p class="club-header-note" data-i18n="headerNote">Private club · Top-tier girls</p>
+        <button type="button" class="lang-toggle" id="btn-lang" aria-label="Switch language">EN</button>
+        <button type="button" class="admin-entry-btn" id="btn-admin-open" data-i18n="admin">管理</button>
       </div>
     </div>
   </header>
 
   <main id="app">
-    <div class="loading-state" id="loading">加载中…</div>
+    <div class="loading-state" id="loading" data-i18n="loading">加载中…</div>
 
     <!-- 首页 -->
     <div id="view-home" class="view hidden">
       <div class="club-landing">
-        <section class="club-hero club-hero--carousel" aria-label="首页轮播">
+        <section class="club-hero club-hero--carousel" aria-label="Hero">
           <div class="club-carousel" data-carousel data-interval="4000">
             <div class="club-carousel__track" id="hero-track"></div>
             <div class="club-carousel__overlay">
@@ -34,8 +35,8 @@
                 <div id="intro-lines"></div>
               </div>
             </div>
-            <button type="button" class="club-carousel__btn club-carousel__btn--prev" data-carousel-prev aria-label="上一张">‹</button>
-            <button type="button" class="club-carousel__btn club-carousel__btn--next" data-carousel-next aria-label="下一张">›</button>
+            <button type="button" class="club-carousel__btn club-carousel__btn--prev" data-carousel-prev aria-label="Prev">‹</button>
+            <button type="button" class="club-carousel__btn club-carousel__btn--next" data-carousel-next aria-label="Next">›</button>
             <div class="club-carousel__dots" data-carousel-dots id="hero-dots"></div>
           </div>
           <div class="admin-only hero-admin-bar hidden">
@@ -46,17 +47,18 @@
         </section>
 
         <a class="club-tel" id="primary-tel" href="tel:">
-          <span data-bind="primary_phone" data-edit="primary_phone">(718) 223-7425</span> 来电 / 短信预约
-          <small>Out call service · 最好发短信不会错过</small>
+          <span data-bind="primary_phone" data-edit="primary_phone">(718) 223-7425</span>
+          <span data-i18n="callSms">来电 / 短信预约</span>
+          <small data-i18n="callHint">Out call service · 最好发短信不会错过</small>
         </a>
 
         <div class="club-meta">
           <div class="club-meta__item">
-            <strong>门店 1 时间</strong>
+            <strong data-i18n="loc1Time">门店 1 时间</strong>
             <span data-bind="loc1_hours" data-edit="loc1_hours">11:00AM – 03:00AM</span>
           </div>
           <div class="club-meta__item">
-            <strong>门店 2 时间</strong>
+            <strong data-i18n="loc2Time">门店 2 时间</strong>
             <span data-bind="loc2_hours" data-edit="loc2_hours">24小时营业</span>
           </div>
         </div>
@@ -66,7 +68,7 @@
         <div class="club-qr hidden" id="qr-wrap">
           <div class="club-qr__card">
             <img id="qr-img" src="" alt="WeChat QR" />
-            <p>微信扫码联系（不主动打扰）</p>
+            <p data-i18n="qrHint">微信扫码联系（不主动打扰）</p>
             <div class="admin-only hidden">
               <label class="file-btn">更换二维码
                 <input type="file" id="qr-upload" accept="image/*" hidden />
@@ -86,7 +88,7 @@
               ☎️ <span data-bind="loc1_phone" data-edit="loc1_phone"></span><br />
               🕒 <span data-bind="loc1_hours" data-edit="loc1_hours"></span><br />
               <span data-bind="loc1_note" data-edit="loc1_note"></span>
-              <br /><a class="loc1-call" href="tel:">立即预约 →</a>
+              <br /><a class="loc1-call" href="tel:" data-i18n="bookNow">立即预约 →</a>
             </div>
           </div>
           <div class="club-shop">
@@ -99,7 +101,7 @@
               ☎️ <span data-bind="loc2_phone" data-edit="loc2_phone"></span><br />
               🕒 <span data-bind="loc2_hours" data-edit="loc2_hours"></span><br />
               <span data-bind="loc2_note" data-edit="loc2_note"></span>
-              <br /><a class="loc2-call" href="tel:">立即预约 →</a>
+              <br /><a class="loc2-call" href="tel:" data-i18n="bookNow">立即预约 →</a>
             </div>
           </div>
         </div>
@@ -108,8 +110,8 @@
         <div class="club-notice" data-bind="notice_2" data-edit="notice_2"></div>
 
         <section class="club-section" id="girls">
-          <h2 class="club-section__title">今日可约佳丽</h2>
-          <p class="club-section__lead">点击照片进入详情</p>
+          <h2 class="club-section__title" data-i18n="girlsTitle">今日可约佳丽</h2>
+          <p class="club-section__lead" data-i18n="girlsLead">点击照片进入详情</p>
           <div class="admin-only hidden" style="text-align:center;margin-bottom:12px;">
             <button type="button" class="admin-btn" id="btn-add-girl">+ 新增佳丽</button>
           </div>
@@ -137,16 +139,16 @@
   <!-- 登录弹层 -->
   <div class="modal hidden" id="modal-login" role="dialog" aria-modal="true">
     <div class="modal__card">
-      <h2>管理员登录</h2>
-      <p class="modal__hint">使用管理员用户名登录</p>
-      <label>用户名<input type="text" id="login-email" autocomplete="username" /></label>
-      <label>密码<input type="password" id="login-password" autocomplete="current-password" /></label>
+      <h2 data-i18n="loginTitle">管理员登录</h2>
+      <p class="modal__hint" data-i18n="loginHint">使用管理员用户名登录</p>
+      <label><span data-i18n="username">用户名</span><input type="text" id="login-email" autocomplete="username" /></label>
+      <label><span data-i18n="password">密码</span><input type="password" id="login-password" autocomplete="current-password" /></label>
       <p class="modal__error" id="login-error"></p>
       <div class="modal__actions">
-        <button type="button" class="admin-btn" id="btn-login">登录</button>
-        <button type="button" class="admin-btn ghost" id="btn-login-cancel">取消</button>
+        <button type="button" class="admin-btn" id="btn-login" data-i18n="login">登录</button>
+        <button type="button" class="admin-btn ghost" id="btn-login-cancel" data-i18n="cancel">取消</button>
       </div>
-      <button type="button" class="admin-btn ghost full hidden" id="btn-logout">退出登录</button>
+      <button type="button" class="admin-btn ghost full hidden" id="btn-logout" data-i18n="logout">退出登录</button>
     </div>
   </div>
 
