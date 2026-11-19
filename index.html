@@ -31,8 +31,8 @@
             <div class="club-carousel__overlay">
               <div class="club-hero__inner">
                 <h1 data-bind="brand" data-edit="brand">Dollgirl</h1>
-                <p data-bind="tagline" data-edit="tagline">精心打造美女私家会所 100起步</p>
-                <div id="intro-lines"></div>
+                <p data-bind="tagline" data-edit="tagline" data-edit-hint="tagline">精心打造美女私家会所 100起步</p>
+                <div id="intro-lines" class="hero-intro" data-edit-intro></div>
               </div>
             </div>
             <button type="button" class="club-carousel__btn club-carousel__btn--prev" data-carousel-prev aria-label="Prev">‹</button>
@@ -40,9 +40,14 @@
             <div class="club-carousel__dots" data-carousel-dots id="hero-dots"></div>
           </div>
           <div class="admin-only hero-admin-bar hidden">
-            <label class="file-btn">更换/添加轮播图
-              <input type="file" id="hero-upload" accept="image/*" multiple hidden />
-            </label>
+            <div class="hero-admin-actions">
+              <label class="file-btn">上传轮播图片/视频
+                <input type="file" id="hero-upload" accept="image/*,video/mp4,video/webm,video/quicktime,video/*" multiple hidden />
+              </label>
+              <button type="button" class="admin-btn" id="btn-edit-hero-text">编辑背景文案</button>
+            </div>
+            <p class="hero-admin-tip">登录后可上传图片或视频；点击下方缩略图可删除。背景口号与介绍也可点此编辑。</p>
+            <div id="hero-slides-admin" class="hero-slides-admin"></div>
           </div>
         </section>
 
@@ -149,6 +154,30 @@
         <button type="button" class="admin-btn ghost" id="btn-login-cancel" data-i18n="cancel">取消</button>
       </div>
       <button type="button" class="admin-btn ghost full hidden" id="btn-logout" data-i18n="logout">退出登录</button>
+    </div>
+  </div>
+
+  <!-- 编辑首页背景文案 -->
+  <div class="modal hidden" id="modal-hero-text" role="dialog" aria-modal="true">
+    <div class="modal__card modal__card--wide">
+      <h2>编辑背景文案</h2>
+      <p class="modal__hint">修改轮播图上的口号与介绍文字（保存后立即生效）</p>
+      <div class="form-grid">
+        <label class="full">品牌名
+          <input id="ht-brand" />
+        </label>
+        <label class="full">主口号（第一行大字下方）
+          <input id="ht-tagline" placeholder="精心打造美女私家会所 100起步" />
+        </label>
+        <label class="full">介绍正文（每行一段）
+          <textarea id="ht-intro" rows="10" placeholder="Out call service — 最好发短信不会错过&#10;私家提供日本旅游美女。私家车位 方便停车"></textarea>
+        </label>
+      </div>
+      <p class="modal__error" id="hero-text-error"></p>
+      <div class="modal__actions">
+        <button type="button" class="admin-btn" id="btn-hero-text-save">保存文案</button>
+        <button type="button" class="admin-btn ghost" id="btn-hero-text-cancel">取消</button>
+      </div>
     </div>
   </div>
 

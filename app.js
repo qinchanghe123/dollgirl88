@@ -18,6 +18,7 @@
   const state = {
     settings: null,
     slides: [],
+    slidesAll: [],
     girls: [],
     photosByGirl: {},
     session: null,
@@ -225,12 +226,12 @@
 
   function displaySettings() {
     const base = { ...DEFAULT_SETTINGS, ...(state.settings || {}) };
-    if (state.lang !== 'en') return base;
+    // Admin always sees/edits the real stored copy (Chinese source of truth)
+    if (isAdmin() || state.lang !== 'en') return base;
     const out = { ...base };
     Object.keys(SETTINGS_EN).forEach((k) => {
       out[k] = SETTINGS_EN[k];
     });
-    // keep phones/qr as-is
     out.primary_phone = base.primary_phone;
     out.loc1_phone = base.loc1_phone;
     out.loc2_phone = base.loc2_phone;
@@ -317,6 +318,7 @@
     if (!supabase) {
       state.settings = { ...DEFAULT_SETTINGS };
       state.slides = [];
+      state.slidesAll = [];
       state.photosByGirl = {};
       if (localGirls && localGirls.length) {
         state.girls = localGirls;
@@ -331,7 +333,7 @@
 
     const [settingsRes, slidesRes, girlsRes] = await Promise.all([
       supabase.from('site_settings').select('*').eq('id', 1).maybeSingle(),
-      supabase.from('hero_slides').select('*').eq('active', true).order('sort_order'),
+      supabase.from('hero_slides').select('*').order('sort_order'),
       supabase.from('girls').select('*').eq('published', true).order('sort_order').order('id', { ascending: false }),
     ]);
 
@@ -349,7 +351,8 @@
     if (girlsRes.error) console.warn(girlsRes.error);
 
     state.settings = { ...DEFAULT_SETTINGS, ...(settingsRes.data || {}) };
-    state.slides = slidesRes.data || [];
+    state.slidesAll = slidesRes.data || [];
+    state.slides = (state.slidesAll || []).filter((s) => s.active !== false);
 
     // Keep existing Supabase girls, then ADD local catalog entries.
     // Same slug/name → local catalog wins (new photos/copy from client).
@@ -404,6 +407,31 @@
   }
 
   /* -------------------- render -------------------- */
+
+  function isVideoPath(path) {
+    return /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(String(path || '')) ||
+      String(path || '').toLowerCase().includes('video/');
+  }
+
+  function isVideoFile(file) {
+    if (!file) return false;
+    if (file.type && file.type.startsWith('video/')) return true;
+    return isVideoPath(file.name || '');
+  }
+
+  function activeSlides() {
+    const all = state.slidesAll && state.slidesAll.length ? state.slidesAll : state.slides || [];
+    return all.filter((s) => s.active !== false);
+  }
+
+  async function saveSettingFields(fields) {
+    if (!supabase) throw new Error(state.lang === 'en' ? 'Supabase not configured' : 'Supabase 未配置');
+    const payload = { id: 1, updated_at: new Date().toISOString(), ...fields };
+    const { error } = await supabase.from('site_settings').upsert(payload);
+    if (error) throw error;
+    state.settings = { ...(state.settings || DEFAULT_SETTINGS), ...fields };
+  }
+
   function bindSettings() {
     const s = displaySettings();
     $$('[data-bind]').forEach((el) => {
@@ -425,17 +453,25 @@
 
     const intro = $('#intro-lines');
     if (intro) {
+      // Always show source/settings intro on page; EN overlay still via displaySettings
+      const introText = String(s.intro || '');
       intro.innerHTML = '';
-      String(s.intro || '')
+      introText
         .split(/\r?\n/)
-        .map((l) => l.trim())
-        .filter(Boolean)
+        .map((l) => l.replace(/\s+$/g, ''))
+        .filter((l, idx, arr) => l.trim() || (idx > 0 && idx < arr.length - 1))
         .forEach((line) => {
           const p = document.createElement('p');
           p.textContent = line;
-          if (isAdmin()) p.setAttribute('data-edit-intro-line', '1');
           intro.appendChild(p);
         });
+      if (!intro.children.length && introText.trim()) {
+        const p = document.createElement('p');
+        p.textContent = introText.trim();
+        intro.appendChild(p);
+      }
+      intro.classList.toggle('is-editable', isAdmin());
+      intro.setAttribute('title', isAdmin() ? (state.lang === 'en' ? 'Click to edit copy' : '点击可编辑文案') : '');
     }
 
     $('#club-apps').innerHTML = [
@@ -468,19 +504,35 @@
     const dots = $('#hero-dots');
     track.innerHTML = '';
     dots.innerHTML = '';
-    // reset carousel init flag so new slides rebind
     const carousel = track.closest('[data-carousel]');
-    if (carousel) carousel._inited = false;
+    if (carousel) {
+      carousel._inited = false;
+      if (carousel._timer) {
+        clearInterval(carousel._timer);
+        carousel._timer = null;
+      }
+    }
 
-    const slides = state.slides.length > 0 ? state.slides : [{ image_path: '', id: 'placeholder' }];
+    const slides = activeSlides().length > 0 ? activeSlides() : [{ image_path: '', id: 'placeholder' }];
 
     slides.forEach((s, i) => {
       const div = document.createElement('div');
       div.className = 'club-carousel__slide' + (i === 0 ? ' is-active' : '');
+      div.dataset.slideId = s.id != null ? String(s.id) : '';
       const src = s.image_path ? publicUrl(s.image_path) : '';
-      div.innerHTML = src
-        ? `<img src="${src}" alt="slide ${i + 1}" />`
-        : `<div style="height:100%;background:linear-gradient(135deg,#1a3d2a,#2e8b57);display:grid;place-items:center;color:#fff;font-size:24px;">Dollgirl</div>`;
+      if (src && isVideoPath(s.image_path)) {
+        div.innerHTML =
+          '<video class="club-carousel__video" src="' +
+          src +
+          '" playsinline muted loop preload="metadata" ' +
+          (i === 0 ? 'autoplay ' : '') +
+          '></video>';
+      } else if (src) {
+        div.innerHTML = '<img src="' + src + '" alt="slide ' + (i + 1) + '" />';
+      } else {
+        div.innerHTML =
+          '<div style="height:100%;background:linear-gradient(135deg,#1a3d2a,#2e8b57);display:grid;place-items:center;color:#fff;font-size:24px;">Dollgirl</div>';
+      }
       track.appendChild(div);
 
       const dot = document.createElement('button');
@@ -490,6 +542,96 @@
       dots.appendChild(dot);
     });
     initCarousels();
+    renderHeroAdmin();
+  }
+
+  function renderHeroAdmin() {
+    const box = $('#hero-slides-admin');
+    if (!box) return;
+    if (!isAdmin()) {
+      box.innerHTML = '';
+      return;
+    }
+    const all = state.slidesAll && state.slidesAll.length ? state.slidesAll : state.slides || [];
+    if (!all.length) {
+      box.innerHTML = '<p class="hero-admin-empty">' + (state.lang === 'en' ? 'No slides yet — upload images or videos.' : '暂无轮播，请上传图片或视频') + '</p>';
+      return;
+    }
+    box.innerHTML = all
+      .map((s) => {
+        const src = s.image_path ? publicUrl(s.image_path) : '';
+        const vid = isVideoPath(s.image_path);
+        const thumb = vid
+          ? '<div class="hero-admin-thumb hero-admin-thumb--video"><span>VIDEO</span></div>'
+          : src
+            ? '<img class="hero-admin-thumb" src="' + src + '" alt="" />'
+            : '<div class="hero-admin-thumb"></div>';
+        const on = s.active !== false;
+        return (
+          '<div class="hero-admin-item' +
+          (on ? '' : ' is-off') +
+          '" data-slide-id="' +
+          s.id +
+          '">' +
+          thumb +
+          '<div class="hero-admin-item__meta">' +
+          '<span>' +
+          (vid ? '视频' : '图片') +
+          ' #' +
+          s.id +
+          '</span>' +
+          '<span class="muted">' +
+          escapeHtml(String(s.image_path || '').split('/').pop() || '') +
+          '</span></div>' +
+          '<div class="hero-admin-item__actions">' +
+          '<button type="button" class="admin-btn ghost" data-slide-toggle="' +
+          s.id +
+          '">' +
+          (on ? (state.lang === 'en' ? 'Hide' : '隐藏') : state.lang === 'en' ? 'Show' : '显示') +
+          '</button>' +
+          '<button type="button" class="admin-btn danger" data-slide-del="' +
+          s.id +
+          '">' +
+          (state.lang === 'en' ? 'Delete' : '删除') +
+          '</button></div></div>'
+        );
+      })
+      .join('');
+
+    box.querySelectorAll('[data-slide-del]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-slide-del');
+        if (!confirm(state.lang === 'en' ? 'Delete this slide?' : '确定删除这个轮播？')) return;
+        try {
+          const { error } = await supabase.from('hero_slides').delete().eq('id', id);
+          if (error) throw error;
+          toast(state.lang === 'en' ? 'Slide deleted' : '已删除轮播');
+          await loadAll();
+          renderAll();
+        } catch (e) {
+          toast(e.message || 'Delete failed');
+        }
+      });
+    });
+    box.querySelectorAll('[data-slide-toggle]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-slide-toggle');
+        const slide = (state.slidesAll || []).find((x) => String(x.id) === String(id));
+        if (!slide) return;
+        try {
+          const { error } = await supabase
+            .from('hero_slides')
+            .update({ active: !(slide.active !== false) })
+            .eq('id', id);
+          if (error) throw error;
+          toast(state.lang === 'en' ? 'Updated' : '已更新');
+          await loadAll();
+          renderAll();
+        } catch (e) {
+          toast(e.message || 'Update failed');
+        }
+      });
+    });
   }
 
   function renderGirls() {
@@ -710,19 +852,44 @@
       let timer = null;
       let touching = false;
       let startX = 0;
+
+      const pauseVideos = () => {
+        $$('video', root).forEach((v) => {
+          try {
+            v.pause();
+          } catch (e) {}
+        });
+      };
+      const playActiveVideo = () => {
+        const active = slides[index];
+        if (!active) return;
+        const v = $('video', active);
+        if (v) {
+          try {
+            v.currentTime = 0;
+            const p = v.play();
+            if (p && p.catch) p.catch(() => {});
+          } catch (e) {}
+        }
+      };
+
       const go = (i) => {
         index = (i + slides.length) % slides.length;
+        pauseVideos();
         slides.forEach((s, n) => s.classList.toggle('is-active', n === index));
         dots.forEach((d, n) => d.classList.toggle('is-active', n === index));
+        playActiveVideo();
       };
       const start = () => {
         stop();
         if (slides.length < 2) return;
         timer = setInterval(() => go(index + 1), interval);
+        root._timer = timer;
       };
       const stop = () => {
         if (timer) clearInterval(timer);
         timer = null;
+        root._timer = null;
       };
       if (prev) prev.addEventListener('click', () => { go(index - 1); start(); });
       if (next) next.addEventListener('click', () => { go(index + 1); start(); });
@@ -776,23 +943,76 @@
 
   /* -------------------- admin inline edit -------------------- */
   function setupInlineEdit() {
-    if (!isAdmin()) return;
+    // field-level contenteditable (brand/tagline/etc.)
     $$('[data-edit]').forEach((el) => {
+      if (!isAdmin()) {
+        el.contentEditable = 'false';
+        return;
+      }
+      el.contentEditable = 'true';
       if (el._editBound) return;
       el._editBound = true;
-      el.contentEditable = 'true';
       el.addEventListener('blur', async () => {
+        if (!isAdmin()) return;
         const key = el.getAttribute('data-edit');
         const val = el.textContent.trim();
         if (!key || !supabase) return;
+        // Always write to source settings (not EN overlay)
         if ((state.settings[key] || '') === val) return;
-        state.settings[key] = val;
-        const { error } = await supabase.from('site_settings').upsert({ id: 1, [key]: val, updated_at: new Date().toISOString() });
-        if (error) toast('Save failed: ' + error.message);
-        else toast(state.lang === 'en' ? 'Saved' : '已保存');
-        bindSettings();
+        try {
+          await saveSettingFields({ [key]: val });
+          toast(state.lang === 'en' ? 'Saved' : '已保存');
+        } catch (err) {
+          toast((state.lang === 'en' ? 'Save failed: ' : '保存失败: ') + (err.message || err));
+        }
       });
     });
+
+    const intro = $('#intro-lines');
+    if (intro && isAdmin() && !intro._introBound) {
+      intro._introBound = true;
+      intro.addEventListener('click', (e) => {
+        if (!isAdmin()) return;
+        // open modal for multi-line edit
+        e.preventDefault();
+        openHeroTextModal();
+      });
+    }
+  }
+
+  function openHeroTextModal() {
+    if (!isAdmin()) return openLogin();
+    const s = state.settings || DEFAULT_SETTINGS;
+    $('#ht-brand').value = s.brand || '';
+    $('#ht-tagline').value = s.tagline || '';
+    $('#ht-intro').value = s.intro || '';
+    $('#hero-text-error').textContent = '';
+    $('#modal-hero-text').classList.remove('hidden');
+  }
+
+  function closeHeroTextModal() {
+    $('#modal-hero-text')?.classList.add('hidden');
+  }
+
+  async function saveHeroTextModal() {
+    $('#hero-text-error').textContent = '';
+    const brand = ($('#ht-brand').value || '').trim();
+    const tagline = ($('#ht-tagline').value || '').trim();
+    const intro = ($('#ht-intro').value || '').replace(/\r\n/g, '\n');
+    if (!brand) {
+      $('#hero-text-error').textContent = state.lang === 'en' ? 'Brand required' : '请填写品牌名';
+      return;
+    }
+    try {
+      await saveSettingFields({ brand, tagline, intro });
+      // keep EN overlay from overriding just-saved Chinese until reload of lang
+      closeHeroTextModal();
+      toast(state.lang === 'en' ? 'Copy saved' : '背景文案已保存');
+      bindSettings();
+      applyLangChrome();
+    } catch (err) {
+      $('#hero-text-error').textContent = err.message || String(err);
+    }
   }
 
   /* -------------------- auth -------------------- */
@@ -848,12 +1068,25 @@
   /* -------------------- uploads -------------------- */
   async function uploadFile(file, folder) {
     if (!supabase) throw new Error('Supabase not configured');
-    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    let ext = (file.name.split('.').pop() || '').toLowerCase();
+    if (!ext || ext.length > 5) {
+      if (file.type === 'video/mp4') ext = 'mp4';
+      else if (file.type === 'video/webm') ext = 'webm';
+      else if (file.type && file.type.startsWith('image/')) ext = 'jpg';
+      else ext = 'bin';
+    }
     const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const contentType =
+      file.type ||
+      (isVideoFile(file)
+        ? ext === 'webm'
+          ? 'video/webm'
+          : 'video/mp4'
+        : 'image/jpeg');
     const { error } = await supabase.storage.from('site-media').upload(path, file, {
       cacheControl: '3600',
       upsert: false,
-      contentType: file.type || 'image/jpeg',
+      contentType,
     });
     if (error) throw error;
     return path;
@@ -1002,18 +1235,37 @@
 
   /* -------------------- hero / qr upload -------------------- */
   async function onHeroUpload(files) {
+    if (!isAdmin()) return openLogin();
     if (!supabase || !files?.length) return;
+    const list = [...files];
     try {
-      for (let i = 0; i < files.length; i++) {
-        const path = await uploadFile(files[i], 'hero');
+      toast(state.lang === 'en' ? 'Uploading…' : '上传中…');
+      const baseOrder = (state.slidesAll || state.slides || []).length;
+      for (let i = 0; i < list.length; i++) {
+        const file = list[i];
+        // soft limit warn (Supabase bucket often 50MB; keep friendly message)
+        if (file.size > 80 * 1024 * 1024) {
+          throw new Error(
+            state.lang === 'en'
+              ? file.name + ' is too large (max ~80MB)'
+              : file.name + ' 文件过大（建议不超过 80MB）'
+          );
+        }
+        const path = await uploadFile(file, 'hero');
         const { error } = await supabase.from('hero_slides').insert({
           image_path: path,
-          sort_order: (state.slides?.length || 0) + i,
+          sort_order: baseOrder + i,
           active: true,
         });
         if (error) throw error;
       }
-      toast(state.lang === 'en' ? 'Slides uploaded' : '轮播图已上传');
+      toast(
+        state.lang === 'en'
+          ? 'Uploaded ' + list.length + ' slide(s)'
+          : '已上传 ' + list.length + ' 个轮播（含图片/视频）'
+      );
+      const input = $('#hero-upload');
+      if (input) input.value = '';
       await loadAll();
       renderAll();
     } catch (e) {
@@ -1062,6 +1314,9 @@
     $('#btn-girl-save').addEventListener('click', saveGirl);
     $('#btn-girl-cancel').addEventListener('click', closeGirlModal);
     $('#btn-girl-delete').addEventListener('click', deleteGirl);
+    $('#btn-edit-hero-text')?.addEventListener('click', openHeroTextModal);
+    $('#btn-hero-text-save')?.addEventListener('click', saveHeroTextModal);
+    $('#btn-hero-text-cancel')?.addEventListener('click', closeHeroTextModal);
     $('#hero-upload')?.addEventListener('change', (e) => onHeroUpload(e.target.files));
     $('#qr-upload')?.addEventListener('change', (e) => onQrUpload(e.target.files?.[0]));
     window.addEventListener('hashchange', handleRoute);

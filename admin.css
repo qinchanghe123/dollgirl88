@@ -81,11 +81,7 @@ body.is-admin [data-edit]:focus {
   background: rgba(255,255,255,.12);
 }
 
-.hero-admin-bar {
-  text-align: center;
-  padding: 8px;
-  background: #f3f5f4;
-}
+/* hero-admin-bar styles extended below */
 
 .modal {
   position: fixed;
@@ -205,3 +201,102 @@ body.is-admin [data-edit]:focus {
   border-top: 1px solid #e0ebe4;
 }
 .card-admin-bar .admin-btn { padding: 6px 12px; font-size: 12px; }
+
+
+/* Hero admin manager */
+.hero-admin-bar {
+  text-align: left;
+  padding: 12px 14px 16px;
+  background: #eef6f1;
+  border-top: 1px solid #d5e8dc;
+}
+.hero-admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.hero-admin-tip {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #567;
+  line-height: 1.45;
+}
+.hero-slides-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.hero-admin-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  grid-template-rows: auto auto;
+  gap: 6px 10px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d5e8dc;
+  border-radius: 12px;
+  padding: 8px;
+}
+.hero-admin-item.is-off {
+  opacity: 0.55;
+}
+.hero-admin-thumb {
+  width: 72px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #d9eae1;
+  grid-row: 1 / span 2;
+}
+.hero-admin-thumb--video {
+  display: grid;
+  place-items: center;
+  background: #1a3d2a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+.hero-admin-item__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  min-width: 0;
+}
+.hero-admin-item__meta .muted {
+  color: #789;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hero-admin-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.hero-admin-item__actions .admin-btn {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.hero-admin-empty {
+  margin: 0;
+  font-size: 13px;
+  color: #567;
+}
+
+/* editable intro cue */
+body.is-admin .hero-intro.is-editable {
+  outline: 1px dashed rgba(255,255,255,.55);
+  outline-offset: 4px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+body.is-admin .hero-intro.is-editable:hover {
+  background: rgba(255,255,255,.08);
+}
+body.is-admin [data-edit="tagline"] {
+  cursor: text;
+}
